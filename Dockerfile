@@ -1,11 +1,27 @@
-FROM postgres:latest
+FROM python:3.9-slim-buster
 
-ENV POSTGRES_USER=myuser
-ENV POSTGRES_PASSWORD=mypassword
-ENV POSTGRES_DB=mydb
+WORKDIR /app
 
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5432
+COPY . .
 
-CMD ["postgres"]
+EXPOSE 8000
+
+CMD ["python", "app.py"]
+
+
+
+
+# FROM postgres:latest
+
+# ENV POSTGRES_USER=myuser
+# ENV POSTGRES_PASSWORD=mypassword
+# ENV POSTGRES_DB=mydb
+
+# COPY init.sql /docker-entrypoint-initdb.d/
+
+# EXPOSE 5432
+
+# CMD ["postgres"]
